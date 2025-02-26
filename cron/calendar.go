@@ -100,7 +100,7 @@ func (r *CalendarController) scrapeAndUpload() error {
 				return err
 			}
 			//上传图片并获取返回的链接
-			link, err := r.qiniu.Upload(pdfBytes, calendarInfo.Year)
+			link, err := r.qiniu.Upload(pdfBytes, calendarInfo.Year+".pdf")
 			if err != nil {
 				return err
 			}
