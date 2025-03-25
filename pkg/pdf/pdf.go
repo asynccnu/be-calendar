@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/jung-kurt/gofpdf"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"path"
 	"strings"
@@ -77,13 +77,20 @@ func DetermineImageType(link string, imgBytes []byte) string {
 
 // GetBytesFromLink 从给定的链接获取图片的字节流
 func GetBytesFromLink(url string) ([]byte, error) {
-	resp, err := http.Get(url)
+
+	client := http.Client{}
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
+	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
 
-	imgBytes, err := ioutil.ReadAll(resp.Body)
+	imgBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
