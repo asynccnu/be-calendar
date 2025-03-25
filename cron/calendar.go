@@ -63,7 +63,6 @@ func (r *CalendarController) StartCronTask() {
 			}
 		}
 	}() //定时控制器
-
 }
 
 func (r *CalendarController) scrapeAndUpload() error {
